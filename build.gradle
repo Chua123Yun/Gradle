@@ -11,17 +11,7 @@ dependencies {
 testImplementation 'junit:junit:4.13.2'
 }
 
-ext.gitPath = 'C:/Program Files/Git/bin/git.exe'
 
-task checkGitPath {
-    doLast {
-        def gitVersion = exec {
-            executable = gitPath
-            args = ['--version']
-        }
-        println "Git version: ${gitVersion.text}"
-    }
-}
 
 
 // Define a task to Run a Test
@@ -57,26 +47,18 @@ destinationDirectory = file('build/distributions')
 }
 // Task push build folder to GitHub
 task pushToGitHub(type: Exec) {
-workingDir 'build'
-// Initialize git
-commandLine 'git', 'init'
-exec()
-// Add all files
-commandLine 'git', 'add', '.'
-exec()
-// Commit the changes
-commandLine 'git', 'commit', '-m', 'Automated deployment'
-exec()
-// Set the branch name
-commandLine 'git', 'branch', '-M', 'main'
-exec()
-// Add the remote repository
-commandLine 'git', 'remote', 'add', 'origin',
-'https://github.com/nawaf83/Gradle.git'
-
-exec()
-// Push to the remote repository
-commandLine 'git', 'push', '-u', 'origin', 'main'
-exec()
+    workingDir '.' // Use the root project directory
+    commandLine 'git', 'init'
+    exec()
+    commandLine 'git', 'add', '.'
+    exec()
+    commandLine 'git', 'commit', '-m', 'Automated deployment'
+    exec()
+    commandLine 'git', 'branch', '-M', 'main'
+    exec()
+    commandLine 'git', 'remote', 'add', 'origin', 'https://github.com/Chua123Yun/Gradle.git'
+    exec()
+    commandLine 'git', 'push', '-u', 'origin', 'main'
+    exec()
 }
 
