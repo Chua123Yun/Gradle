@@ -47,18 +47,42 @@ destinationDirectory = file('build/distributions')
 }
 // Task push build folder to GitHub
 task pushToGitHub(type: Exec) {
-    workingDir '.' // Use the root project directory
+    workingDir file('C:/Users/yami/Desktop/HelloWrold') // Ensure this is the root project directory
+
+    // Initialize git
     commandLine 'git', 'init'
+    standardOutput = new FileOutputStream('git-init.log')
+    errorOutput = new FileOutputStream('git-init-error.log')
     exec()
+    
+    // Add all files
     commandLine 'git', 'add', '.'
+    standardOutput = new FileOutputStream('git-add.log')
+    errorOutput = new FileOutputStream('git-add-error.log')
     exec()
+    
+    // Commit the changes
     commandLine 'git', 'commit', '-m', 'Automated deployment'
+    standardOutput = new FileOutputStream('git-commit.log')
+    errorOutput = new FileOutputStream('git-commit-error.log')
     exec()
+    
+    // Set the branch name
     commandLine 'git', 'branch', '-M', 'main'
+    standardOutput = new FileOutputStream('git-branch.log')
+    errorOutput = new FileOutputStream('git-branch-error.log')
     exec()
+    
+    // Add the remote repository
     commandLine 'git', 'remote', 'add', 'origin', 'https://github.com/Chua123Yun/Gradle.git'
+    standardOutput = new FileOutputStream('git-remote.log')
+    errorOutput = new FileOutputStream('git-remote-error.log')
     exec()
+    
+    // Push to the remote repository
     commandLine 'git', 'push', '-u', 'origin', 'main'
+    standardOutput = new FileOutputStream('git-push.log')
+    errorOutput = new FileOutputStream('git-push-error.log')
     exec()
 }
 
